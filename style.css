@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  background: linear-gradient(135deg, #ff8800, #b300aa);
   color: #fff;
   min-height: 100vh;
   display: flex;
@@ -72,30 +72,24 @@ body {
   to {opacity: 0; transform: translateY(-15px);}
 }
 
-/* --- Нижнее меню --- */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(255 255 255 / 0.1);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-around;
-  align-items: center;
   padding: 8px 0;
-  box-shadow: 0 -4px 12px rgba(229, 46, 113, 0.3);
-  z-index: 999;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 12px rgba(238, 40, 245, 0.829);
 }
 
 /* Кнопки меню */
 .nav-button {
-  background: #fff;
-  color: #e52e71;
+  background: #ffffff;
+  color: #000000;
   border: none;
-  border-radius: 12px;
+  border-radius: 15px;
   width: 44px;
   height: 44px;
   font-size: 1.5rem;
@@ -112,7 +106,7 @@ body {
 
 .nav-button:hover,
 .nav-button:focus {
-  background-color: #e52e71;
+  background-color: #ffffff7a;
   color: #fff;
   box-shadow: 0 6px 18px rgba(255, 138, 0, 0.7);
   outline: none;
@@ -122,18 +116,6 @@ body {
 .nav-button:active {
   transform: scale(0.95);
   box-shadow: 0 3px 9px rgba(229, 46, 113, 0.5);
-}
-
-/* Эффект пульсации */
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
-  }
-  50% {
-    transform: scale(1.07);
-    box-shadow: 0 8px 20px rgba(229, 46, 113, 0.5);
-  }
 }
 
 /* --- Переключатель эффектов --- */
