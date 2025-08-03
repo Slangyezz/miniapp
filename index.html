@@ -1,12 +1,92 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Подарки Mini App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>👋 Привет из Mini App!</h1>
+  <div class="container">
+    <h1 class="title">🎁 Gift App</h1>
+    <div class="menu">
+      <button onclick="navigate('cases')" class="nav-button">🎁 Кейсы</button>
+      <button onclick="navigate('earn')" class="nav-button">💼 Заработать</button>
+      <button onclick="navigate('invite')" class="nav-button">👥 Приглашения</button>
+      <button onclick="navigate('shop')" class="nav-button">🛒 Магазин подарков</button>
+      <button onclick="navigate('profile')" class="nav-button">👤 Профиль</button>
+    </div>
+
+    <div id="content">
+      <section id="cases" class="section active">
+        <h2>Кейсы</h2>
+        <p>Здесь будет содержимое раздела Кейсы.</p>
+      </section>
+      <section id="earn" class="section">
+        <h2>Заработать</h2>
+        <p>Здесь будет содержимое раздела Заработать.</p>
+      </section>
+      <section id="invite" class="section">
+        <h2>Приглашения</h2>
+        <p>Здесь будет содержимое раздела Приглашения.</p>
+      </section>
+      <section id="shop" class="section">
+        <h2>Магазин подарков</h2>
+        <p>Здесь будет содержимое Магазина подарков.</p>
+      </section>
+      <section id="profile" class="section">
+        <h2>Профиль</h2>
+        <label>
+          <input type="checkbox" id="effectsToggle" checked />
+          Включить эффекты
+        </label>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Проверяем сохранённое состояние эффектов
+    let effectsEnabled = localStorage.getItem('effectsEnabled');
+    if (effectsEnabled === null) effectsEnabled = 'true';
+    else effectsEnabled = effectsEnabled === 'true';
+
+    const effectsToggle = document.getElementById('effectsToggle');
+    effectsToggle.checked = effectsEnabled;
+
+    function setEffectsState(enabled) {
+      effectsEnabled = enabled;
+      localStorage.setItem('effectsEnabled', enabled);
+      document.body.classList.toggle('effects-disabled', !enabled);
+    }
+
+    effectsToggle.addEventListener('change', () => {
+      setEffectsState(effectsToggle.checked);
+    });
+
+    setEffectsState(effectsEnabled);
+
+    function navigate(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      const current = document.querySelector('.section.active');
+      if (current.id === sectionId) return; // уже выбран
+
+      if (effectsEnabled) {
+        // Анимация выхода
+        current.classList.add('fade-out');
+        current.classList.remove('fade-in');
+
+        setTimeout(() => {
+          current.classList.remove('active', 'fade-out');
+          const next = document.getElementById(sectionId);
+          next.classList.add('active', 'fade-in');
+        }, 300); // время анимации выхода
+      } else {
+        // Без эффектов просто переключаем
+        current.classList.remove('active', 'fade-in', 'fade-out');
+        document.getElementById(sectionId).classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>
