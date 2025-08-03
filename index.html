@@ -10,13 +10,6 @@
 <body>
   <div class="container">
     <h1 class="title">🎁 Gift App</h1>
-    <div class="menu">
-      <button onclick="navigate('cases')" class="nav-button">🎁 Кейсы</button>
-      <button onclick="navigate('earn')" class="nav-button">💼 Заработать</button>
-      <button onclick="navigate('invite')" class="nav-button">👥 Приглашения</button>
-      <button onclick="navigate('shop')" class="nav-button">🛒 Магазин подарков</button>
-      <button onclick="navigate('profile')" class="nav-button">👤 Профиль</button>
-    </div>
 
     <div id="content">
       <section id="cases" class="section active">
@@ -45,8 +38,15 @@
     </div>
   </div>
 
+  <nav class="bottom-nav">
+    <button onclick="navigate('cases')" class="nav-button" aria-label="Кейсы">🎁</button>
+    <button onclick="navigate('earn')" class="nav-button" aria-label="Заработать">💼</button>
+    <button onclick="navigate('invite')" class="nav-button" aria-label="Приглашения">👥</button>
+    <button onclick="navigate('shop')" class="nav-button" aria-label="Магазин подарков">🛒</button>
+    <button onclick="navigate('profile')" class="nav-button" aria-label="Профиль">👤</button>
+  </nav>
+
   <script>
-    // Проверяем сохранённое состояние эффектов
     let effectsEnabled = localStorage.getItem('effectsEnabled');
     if (effectsEnabled === null) effectsEnabled = 'true';
     else effectsEnabled = effectsEnabled === 'true';
@@ -69,10 +69,9 @@
     function navigate(sectionId) {
       const sections = document.querySelectorAll('.section');
       const current = document.querySelector('.section.active');
-      if (current.id === sectionId) return; // уже выбран
+      if (current.id === sectionId) return;
 
       if (effectsEnabled) {
-        // Анимация выхода
         current.classList.add('fade-out');
         current.classList.remove('fade-in');
 
@@ -80,9 +79,8 @@
           current.classList.remove('active', 'fade-out');
           const next = document.getElementById(sectionId);
           next.classList.add('active', 'fade-in');
-        }, 300); // время анимации выхода
+        }, 300);
       } else {
-        // Без эффектов просто переключаем
         current.classList.remove('active', 'fade-in', 'fade-out');
         document.getElementById(sectionId).classList.add('active');
       }

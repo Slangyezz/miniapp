@@ -1,4 +1,4 @@
-/* --- Общие стили --- */
+/* --- Базовые стили --- */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,90 +6,35 @@ body {
   color: #fff;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
+  padding: 0;
   box-sizing: border-box;
-  transition: background 0.4s ease;
 }
 
+/* Контейнер с содержимым над меню */
 .container {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 30px 40px;
-  max-width: 360px;
-  width: 100%;
-  box-shadow: 0 8px 24px rgba(229, 46, 113, 0.4);
-  text-align: center;
+  flex: 1 1 auto;
+  padding: 20px 24px 80px; /* снизу отступ под меню */
+  overflow-y: auto;
 }
 
 /* Заголовок */
 .title {
   font-size: 2.2rem;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  text-align: center;
 }
 
-/* Меню кнопок */
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* Кнопки с легкой анимацией пульсации */
-.nav-button {
-  background: #fff;
-  color: #e52e71;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
-  animation: pulse 3s infinite ease-in-out;
-}
-
-.nav-button:hover,
-.nav-button:focus {
-  background-color: #e52e71;
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(255, 138, 0, 0.7);
-  outline: none;
-  transform: scale(1.05);
-}
-
-.nav-button:active {
-  transform: scale(0.97);
-  box-shadow: 0 3px 9px rgba(229, 46, 113, 0.5);
-}
-
-/* Эффект пульсации */
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
-  }
-  50% {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(229, 46, 113, 0.5);
-  }
-}
-
-/* --- Контент и анимации переходов --- */
+/* Контент разделов */
 #content {
-  margin-top: 30px;
-  min-height: 150px;
   position: relative;
+  min-height: 300px;
 }
 
-/* Секции */
+/* Разделы */
 .section {
   display: none;
   opacity: 0;
@@ -98,6 +43,7 @@ body {
   left: 0;
   top: 0;
   transition: opacity 0.3s ease;
+  padding-bottom: 20px;
 }
 
 .section.active {
@@ -126,7 +72,71 @@ body {
   to {opacity: 0; transform: translateY(-15px);}
 }
 
-/* --- Переключатель эффектов в профиле --- */
+/* --- Нижнее меню --- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255 255 255 / 0.1);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  box-shadow: 0 -4px 12px rgba(229, 46, 113, 0.3);
+  z-index: 999;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+/* Кнопки меню */
+.nav-button {
+  background: #fff;
+  color: #e52e71;
+  border: none;
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  user-select: none;
+  animation: pulse 3s infinite ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.nav-button:hover,
+.nav-button:focus {
+  background-color: #e52e71;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 138, 0, 0.7);
+  outline: none;
+  transform: scale(1.1);
+}
+
+.nav-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 9px rgba(229, 46, 113, 0.5);
+}
+
+/* Эффект пульсации */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
+  }
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 8px 20px rgba(229, 46, 113, 0.5);
+  }
+}
+
+/* --- Переключатель эффектов --- */
 #profile label {
   display: flex;
   align-items: center;
