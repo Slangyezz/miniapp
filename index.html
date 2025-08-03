@@ -11,9 +11,17 @@
   <div class="container">
     <div id="content">
       <section id="cases" class="section active">
-        <h2>Кейсы</h2>
-        <p>Тут будут кейсы</p>
+        <h2 class="title">Кейсы</h2>
+        <div class="cases-grid">
+          <div class="case-container"></div>
+          <div class="case-container"></div>
+          <div class="case-container"></div>
+          <div class="case-container"></div>
+          <div class="case-container"></div>
+          <div class="case-container"></div>
+        </div>
       </section>
+
       <section id="earn" class="section">
         <h2>Заработать</h2>
         <p>тут будут задания.</p>
@@ -28,7 +36,6 @@
       </section>
       <section id="profile" class="section">
         <h2>Профиль</h2>
-
         <div class="profile-card" id="profileCard">
           <img id="userAvatar" class="avatar" src="" alt="avatar" />
           <div class="profile-info">
@@ -38,7 +45,7 @@
         </div>
 
         <label class="effects-toggle">
-          <input type="checkbox" id="effectsToggle" checked />
+          <input type="checkbox" id="effectsToggle" checked/>
           Анимации
         </label>
       </section>
@@ -46,7 +53,7 @@
   </div>
 
   <div class="bottom-nav">
-    <button onclick="navigate('cases')" class="nav-button" aria-label="Кейсы"><img src="case1.png" alt=""></button>
+    <button onclick="navigate('cases')" class="nav-button active-btn" aria-label="Кейсы"><img src="case1.png" alt=""></button>
     <button onclick="navigate('earn')" class="nav-button" aria-label="Заработать"><img src="Quest.png" alt=""></button>
     <button onclick="navigate('invite')" class="nav-button" aria-label="Приглашения"><img src="friend1.png" alt=""></button>
     <button onclick="navigate('shop')" class="nav-button" aria-label="Магазин подарков"><img src="Store.png" alt=""></button>
@@ -64,7 +71,7 @@
       if (user.photo_url) {
         document.getElementById('userAvatar').src = user.photo_url;
       } else {
-        document.getElementById('userAvatar').src = 'https://via.placeholder.com/64'; // запасной аватар
+        document.getElementById('userAvatar').src = 'https://via.placeholder.com/64';
       }
     } else {
       document.getElementById('userFullName').textContent = 'Гость';
@@ -95,9 +102,17 @@
     // Навигация
     function navigate(sectionId) {
       const sections = document.querySelectorAll('.section');
+      const buttons = document.querySelectorAll('.nav-button');
+
       const current = document.querySelector('.section.active');
       if (current.id === sectionId) return;
 
+      // смена активной кнопки
+      buttons.forEach(btn => btn.classList.remove('active-btn'));
+      const clickedButton = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+      if (clickedButton) clickedButton.classList.add('active-btn');
+
+      // анимация
       if (effectsEnabled) {
         current.classList.add('fade-out');
         current.classList.remove('fade-in');
