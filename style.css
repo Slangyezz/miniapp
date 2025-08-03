@@ -145,3 +145,48 @@ body.effects-disabled .section {
   transition: none !important;
   animation: none !important;
 }
+/* Профиль */
+.profile-card {
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  max-width: 300px;
+  text-align: left;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.fullname {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.username {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.effects-toggle {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  font-weight: 600;
+}
