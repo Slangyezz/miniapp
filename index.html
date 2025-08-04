@@ -32,6 +32,11 @@
           <div class="case-container"></div>
         </div>
       </section>
+      вапвапвапваплваповлапотщвотраввввввввввввввввввввввввввввв
+      ваппппппппппппппппп
+      вапппппппппппппппппвапппппппппппппппп
+      ваппппппппппппппппппппппппппппппппппппппп
+      ваппппппппппппппппппппппппппппппппппппппп
       <section id="earn" class="section">
         <h2>Заработать</h2>
         <p>тут будут задания.</p>
@@ -131,7 +136,7 @@
           current.classList.remove('active', 'fade-out');
           const next = document.getElementById(sectionId);
           next.classList.add('active', 'fade-in');
-        }, 300);
+        }, 150);
       } else {
         current.classList.remove('active', 'fade-in', 'fade-out');
         document.getElementById(sectionId).classList.add('active');
@@ -164,12 +169,11 @@ function navigate(sectionId) {
       // Добавляем активность только нужной
       const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
       if (targetBtn) targetBtn.classList.add('active-btn');
-
       // Сброс блокировки
       setTimeout(() => {
         isTransitioning = false;
-      }, 300);
-    }, 300);
+      }, 150);
+    }, 150);
   } else {
     currentSection.classList.remove('active');
     nextSection.classList.add('active');
