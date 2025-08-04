@@ -129,6 +129,8 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  Outline: none !important;
+  box-shadow: none !important;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -137,6 +139,8 @@ body {
 
 #effectsToggle {
   width: 20px;
+  outline: none !important;
+  box-shadow: none !important;
   height: 20px;
   cursor: pointer;
 }
@@ -145,6 +149,8 @@ body {
 body.effects-disabled .nav-button {
   animation: none !important;
   transition: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 body.effects-disabled .section {
@@ -192,6 +198,8 @@ body.effects-disabled .section {
   margin-top: 24px;
   display: flex;
   align-items: center;
+  outline: none !important;
+  box-shadow: none !important;
   gap: 10px;
   justify-content: center;
   font-weight: 600;
@@ -239,12 +247,16 @@ body.effects-disabled .section {
 
 .case-button:hover {
   transform: scale(1.05);
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .case-button img {
   width: 100%;
   height: auto;
   display: block;
+  outline: none !important;
+  box-shadow: none !important;
   max-width: 100px;
   max-height: 100px;
 }
