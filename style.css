@@ -198,16 +198,15 @@ body.effects-disabled .section {
   margin-top: 30px;
 }
 .case-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.192);
-  backdrop-filter: blur(5px);
-  border-radius: 15px;
-  padding: 40px 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 180px;
-  height: 35px;
+  padding: 0; /* Убедись, что нет отступов */
+  overflow: hidden;
 }
 .nav-button.disabled {
   pointer-events: none;
@@ -221,7 +220,7 @@ body.effects-disabled .section {
 .case-button {
   background: none;
   border: none;
-  padding: 0;
+  padding: 10;
   cursor: pointer;
   border-radius: 12px;
   overflow: hidden;
@@ -238,4 +237,9 @@ body.effects-disabled .section {
   display: block;
   max-width: 100px;
   max-height: 100px;
+}
+.case-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
