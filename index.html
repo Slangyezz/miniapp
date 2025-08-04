@@ -13,7 +13,18 @@
       <section id="cases" class="section active">
         <h2 class="title">Кейсы</h2>
         <div class="cases-grid">
-          <div class="case-container"></div>
+        <div class="case-container">
+      <button class="case-button" onclick="onCaseClick()">
+        <img src="cases1.png" alt="Кейс" />
+      </button>
+        </div>
+        <section id="case-open" class="section">
+  <h2 class="title">Открытие кейса</h2>
+  <div class="open-case-content">
+    <img src="cases1.png" alt="Открытый кейс" class="case-open-image" />
+    <button class="back-button" onclick="navigate('cases')">Назад к кейсам</button>
+  </div>
+</section>
           <div class="case-container"></div>
           <div class="case-container"></div>
           <div class="case-container"></div>
@@ -21,7 +32,6 @@
           <div class="case-container"></div>
         </div>
       </section>
-
       <section id="earn" class="section">
         <h2>Заработать</h2>
         <p>тут будут задания.</p>
@@ -127,6 +137,56 @@
         document.getElementById(sectionId).classList.add('active');
       }
     }
+    let isTransitioning = false;
+
+function navigate(sectionId) {
+  if (isTransitioning) return;
+
+  const currentSection = document.querySelector('.section.active');
+  const nextSection = document.getElementById(sectionId);
+  if (!nextSection || currentSection.id === sectionId) return;
+
+  isTransitioning = true;
+
+  const buttons = document.querySelectorAll('.nav-button');
+
+  if (effectsEnabled) {
+    currentSection.classList.add('fade-out');
+    currentSection.classList.remove('fade-in');
+
+    setTimeout(() => {
+      currentSection.classList.remove('active', 'fade-out');
+      nextSection.classList.add('active', 'fade-in');
+
+      // Снимаем активность у всех кнопок
+      buttons.forEach(btn => btn.classList.remove('active-btn'));
+
+      // Добавляем активность только нужной
+      const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+      if (targetBtn) targetBtn.classList.add('active-btn');
+
+      // Сброс блокировки
+      setTimeout(() => {
+        isTransitioning = false;
+      }, 300);
+    }, 300);
+  } else {
+    currentSection.classList.remove('active');
+    nextSection.classList.add('active');
+
+    // Сброс кнопок и добавление нужной
+    buttons.forEach(btn => btn.classList.remove('active-btn'));
+    const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+    if (targetBtn) targetBtn.classList.add('active-btn');
+
+    isTransitioning = false;
+  }
+}
+buttons.forEach(btn => btn.classList.add('disabled'));
+buttons.forEach(btn => btn.classList.remove('disabled'));
+function onCaseClick() {
+  navigate('case-open');
+}
   </script>
 </body>
 </html>
