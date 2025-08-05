@@ -307,3 +307,55 @@ body.effects-disabled .section {
 .top-up-button:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+.stars-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.stars-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.stars-modal input {
+  width: 80%;
+  padding: 10px;
+  margin: 15px 0;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.stars-modal-buttons button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.stars-modal-buttons button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.stars-modal-buttons button:last-child {
+  background-color: #ccc;
+}
+
+.hidden {
+  display: none;
+}

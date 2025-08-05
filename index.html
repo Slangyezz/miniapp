@@ -14,7 +14,6 @@
     <span id="starsAmount">0</span>
     <button class="top-up-button" onclick="buyStars()">+</button>
   </div>
-
   <div class="container">
     <div id="content">
       <section id="cases" class="section active">
@@ -191,6 +190,45 @@
     function onCaseClick() {
       navigate('case-open');
     }
+    const plusButton = document.getElementById('starsPlus');
+
+if (plusButton) {
+  plusButton.addEventListener('click', () => {
+    document.getElementById('starsModal').classList.remove('hidden');
+  });
+}
+
+function closeStarsModal() {
+  document.getElementById('starsModal').classList.add('hidden');
+}
+
+function confirmStars() {
+  const input = document.getElementById('starsInput');
+  const amount = parseInt(input.value, 10);
+
+  if (!amount || amount < 1) {
+    alert("Введите корректное количество звёзд");
+    return;
+  }
+
+  Telegram.WebApp.openInvoice({
+    slug: `stars-invoice-${amount}`,
+    is_test: true,
+  });
+
+  closeStarsModal();
+}
+
   </script>
+  <div id="starsModal" class="stars-modal hidden">
+  <div class="stars-modal-content">
+    <h3>Введите количество звёзд</h3>
+    <input type="number" id="starsInput" min="1" placeholder="Например, 50" />
+    <div class="stars-modal-buttons">
+      <button onclick="confirmStars()">Пополнить</button>
+      <button onclick="closeStarsModal()">Отмена</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
