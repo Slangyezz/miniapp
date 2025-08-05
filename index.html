@@ -209,16 +209,23 @@
     }
 
     // ✅ Заполнение профиля
-    const user = tg.initDataUnsafe?.user;
-    if (user) {
-      document.getElementById('userFullName').textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim();
-      document.getElementById('userUsername').textContent = user.username ? `@${user.username}` : '';
-      document.getElementById('userAvatar').src = user.photo_url || 'https://via.placeholder.com/64';
-    } else {
-      document.getElementById('userFullName').textContent = 'Гость';
-      document.getElementById('userUsername').textContent = '';
-      document.getElementById('userAvatar').src = 'https://via.placeholder.com/64';
-    }
+let user = null;
+try {
+  user = tg?.initDataUnsafe?.user;
+} catch (e) {
+  console.error("Ошибка при получении пользователя из Telegram:", e);
+}
+
+if (user && user.id) {
+  document.getElementById('userFullName').textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim();
+  document.getElementById('userUsername').textContent = user.username ? `@${user.username}` : '';
+  document.getElementById('userAvatar').src = user.photo_url || 'https://via.placeholder.com/64';
+} else {
+  document.getElementById('userFullName').textContent = 'Гость';
+  document.getElementById('userUsername').textContent = '';
+  document.getElementById('userAvatar').src = 'https://via.placeholder.com/64';
+}
+
 
     // ✅ Загружаем баланс при загрузке
     loadStarsBalance();
