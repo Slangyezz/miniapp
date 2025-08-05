@@ -8,28 +8,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="stars-balance" id="starsBalance">
-  <img src="star.png" alt="Stars" />
-  <span id="starsAmount">0</span>
-  <button class="top-up-button" onclick="buyStars()">+</button>
-</div>
+  <!-- ⭐ Баланс и пополнение -->
+  <div class="stars-balance" id="starsBalance">
+    <img src="star.png" alt="Stars" />
+    <span id="starsAmount">0</span>
+    <button class="top-up-button" onclick="buyStars()">+</button>
+  </div>
+
   <div class="container">
     <div id="content">
       <section id="cases" class="section active">
         <h2 class="title">Кейсы</h2>
         <div class="cases-grid">
-        <div class="case-container">
-      <button class="case-button" onclick="onCaseClick()">
-        <img src="cases1.png" alt="Кейс" />
-      </button>
-        </div>
-        <section id="case-open" class="section">
-  <h2 class="title">Открытие кейса</h2>
-  <div class="open-case-content">
-    <img src="cases1.png" alt="Открытый кейс" class="case-open-image" />
-    <button class="back-button" onclick="navigate('cases')">Назад к кейсам</button>
-  </div>
-</section>
+          <div class="case-container">
+            <button class="case-button" onclick="onCaseClick()">
+              <img src="cases1.png" alt="Кейс" />
+            </button>
+          </div>
+          <section id="case-open" class="section">
+            <h2 class="title">Открытие кейса</h2>
+            <div class="open-case-content">
+              <img src="cases1.png" alt="Открытый кейс" class="case-open-image" />
+              <button class="back-button" onclick="navigate('cases')">Назад к кейсам</button>
+            </div>
+          </section>
+          <!-- Доп. кейсы -->
           <div class="case-container"></div>
           <div class="case-container"></div>
           <div class="case-container"></div>
@@ -37,6 +40,7 @@
           <div class="case-container"></div>
         </div>
       </section>
+
       <section id="earn" class="section">
         <h2>Заработать</h2>
         <p>тут будут задания.</p>
@@ -58,7 +62,6 @@
             <div id="userUsername" class="username">@username</div>
           </div>
         </div>
-
         <label class="effects-toggle">
           <input type="checkbox" id="effectsToggle" checked/>
           Анимации
@@ -68,15 +71,63 @@
   </div>
 
   <div class="bottom-nav">
-    <button onclick="navigate('cases')" class="nav-button active-btn" aria-label="Кейсы"><img src="case1.png" alt=""></button>
-    <button onclick="navigate('earn')" class="nav-button" aria-label="Заработать"><img src="Quest.png" alt=""></button>
-    <button onclick="navigate('invite')" class="nav-button" aria-label="Приглашения"><img src="friend1.png" alt=""></button>
-    <button onclick="navigate('shop')" class="nav-button" aria-label="Магазин подарков"><img src="Store.png" alt=""></button>
-    <button onclick="navigate('profile')" class="nav-button" aria-label="Профиль"><img src="Profile2.png" alt=""></button>
+    <button onclick="navigate('cases')" class="nav-button active-btn"><img src="case1.png" alt=""></button>
+    <button onclick="navigate('earn')" class="nav-button"><img src="Quest.png" alt=""></button>
+    <button onclick="navigate('invite')" class="nav-button"><img src="friend1.png" alt=""></button>
+    <button onclick="navigate('shop')" class="nav-button"><img src="Store.png" alt=""></button>
+    <button onclick="navigate('profile')" class="nav-button"><img src="Profile2.png" alt=""></button>
   </div>
 
+  <!-- 🔧 Telegram API -->
   <script>
-    // Эффекты
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    const userId = tg?.initDataUnsafe?.user?.id;
+
+    async function loadStarsBalance() {
+      if (!userId) return;
+
+      try {
+        const res = await fetch(`/api/user-balance?user_id=${userId}`);
+        const data = await res.json();
+        document.getElementById('starsAmount').textContent = data.balance ?? 0;
+      } catch (err) {
+        console.error('Ошибка загрузки баланса:', err);
+        document.getElementById('starsAmount').textContent = '—';
+      }
+    }
+
+    async function buyStars() {
+      if (!userId) {
+        alert('Пользователь не найден');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/get-stars-invoice?user_id=${userId}`);
+        const data = await res.json();
+
+        if (!data.invoice_link) {
+          alert('Ошибка создания счёта');
+          return;
+        }
+
+        tg.openInvoice(data.invoice_link, (status) => {
+          if (status === 'paid') {
+            loadStarsBalance();
+          }
+        });
+      } catch (err) {
+        console.error('Ошибка при получении счёта:', err);
+      }
+    }
+
+    loadStarsBalance();
+  </script>
+
+  <!-- 🔧 Навигация и эффекты -->
+  <script>
     let effectsEnabled = localStorage.getItem('effectsEnabled');
     if (effectsEnabled === null) effectsEnabled = 'true';
     else effectsEnabled = effectsEnabled === 'true';
@@ -96,121 +147,50 @@
 
     setEffectsState(effectsEnabled);
 
-    // Навигация
-    function navigate(sectionId) {
-      const sections = document.querySelectorAll('.section');
-      const buttons = document.querySelectorAll('.nav-button');
-
-      const current = document.querySelector('.section.active');
-      if (current.id === sectionId) return;
-
-      // смена активной кнопки
-      buttons.forEach(btn => btn.classList.remove('active-btn'));
-      const clickedButton = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
-      if (clickedButton) clickedButton.classList.add('active-btn');
-
-      // анимация
-      if (effectsEnabled) {
-        current.classList.add('fade-out');
-        current.classList.remove('fade-in');
-
-        setTimeout(() => {
-          current.classList.remove('active', 'fade-out');
-          const next = document.getElementById(sectionId);
-          next.classList.add('active', 'fade-in');
-        }, 150);
-      } else {
-        current.classList.remove('active', 'fade-in', 'fade-out');
-        document.getElementById(sectionId).classList.add('active');
-      }
-    }
     let isTransitioning = false;
 
-function navigate(sectionId) {
-  if (isTransitioning) return;
+    function navigate(sectionId) {
+      if (isTransitioning) return;
 
-  const currentSection = document.querySelector('.section.active');
-  const nextSection = document.getElementById(sectionId);
-  if (!nextSection || currentSection.id === sectionId) return;
+      const currentSection = document.querySelector('.section.active');
+      const nextSection = document.getElementById(sectionId);
+      if (!nextSection || currentSection.id === sectionId) return;
 
-  isTransitioning = true;
+      isTransitioning = true;
 
-  const buttons = document.querySelectorAll('.nav-button');
+      const buttons = document.querySelectorAll('.nav-button');
 
-  if (effectsEnabled) {
-    currentSection.classList.add('fade-out');
-    currentSection.classList.remove('fade-in');
+      if (effectsEnabled) {
+        currentSection.classList.add('fade-out');
+        currentSection.classList.remove('fade-in');
 
-    setTimeout(() => {
-      currentSection.classList.remove('active', 'fade-out');
-      nextSection.classList.add('active', 'fade-in');
+        setTimeout(() => {
+          currentSection.classList.remove('active', 'fade-out');
+          nextSection.classList.add('active', 'fade-in');
 
-      // Снимаем активность у всех кнопок
-      buttons.forEach(btn => btn.classList.remove('active-btn'));
+          buttons.forEach(btn => btn.classList.remove('active-btn'));
+          const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+          if (targetBtn) targetBtn.classList.add('active-btn');
 
-      // Добавляем активность только нужной
-      const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
-      if (targetBtn) targetBtn.classList.add('active-btn');
-      // Сброс блокировки
-      setTimeout(() => {
+          setTimeout(() => {
+            isTransitioning = false;
+          }, 150);
+        }, 150);
+      } else {
+        currentSection.classList.remove('active');
+        nextSection.classList.add('active');
+
+        buttons.forEach(btn => btn.classList.remove('active-btn'));
+        const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+        if (targetBtn) targetBtn.classList.add('active-btn');
+
         isTransitioning = false;
-      }, 150);
-    }, 150);
-  } else {
-    currentSection.classList.remove('active');
-    nextSection.classList.add('active');
+      }
+    }
 
-    // Сброс кнопок и добавление нужной
-    buttons.forEach(btn => btn.classList.remove('active-btn'));
-    const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
-    if (targetBtn) targetBtn.classList.add('active-btn');
-
-    isTransitioning = false;
-  }
-}
-buttons.forEach(btn => btn.classList.add('disabled'));
-buttons.forEach(btn => btn.classList.remove('disabled'));
-function onCaseClick() {
-  navigate('case-open');
-}
-document.getElementById('starsAmount').textContent = balanceFromApi;
+    function onCaseClick() {
+      navigate('case-open');
+    }
   </script>
 </body>
-<script>
-  const tg = window.Telegram.WebApp;
-  const userId = tg.initDataUnsafe?.user?.id;
-
-  async function loadStarsBalance() {
-    if (!userId) return;
-
-    try {
-      const res = await fetch(`/api/user-balance?user_id=${userId}`);
-      const data = await res.json();
-      document.getElementById('starsAmount').textContent = data.balance ?? 0;
-    } catch (err) {
-      console.error('Ошибка загрузки баланса:', err);
-      document.getElementById('starsAmount').textContent = '—';
-    }
-  }
-  loadStarsBalance();
-</script>
-<script>
-  async function buyStars() {
-    const userId = Telegram.WebApp.initDataUnsafe?.user?.id;
-
-    try {
-      const res = await fetch(`/api/get-stars-invoice?user_id=${userId}`);
-      const { invoice_link } = await res.json();
-
-      Telegram.WebApp.openInvoice(invoice_link, (status) => {
-        if (status === 'paid') {
-          // Можно перезагрузить баланс
-          loadStarsBalance();
-        }
-      });
-    } catch (err) {
-      console.error('Ошибка при получении счёта:', err);
-    }
-  }
-</script>
 </html>
