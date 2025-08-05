@@ -8,9 +8,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="stars-balance" id="starsBalance">
+<div class="stars-balance" id="starsBalance">
   <img src="star.png" alt="Stars" />
-  <span id="starsAmount">123</span>
+  <span id="starsAmount">0</span>
+  <button class="top-up-button" onclick="buyStars()">+</button>
 </div>
   <div class="container">
     <div id="content">
@@ -75,24 +76,6 @@
   </div>
 
   <script>
-    // Telegram WebApp API
-    const tg = window.Telegram.WebApp;
-    const user = tg.initDataUnsafe?.user;
-
-    if (user) {
-      document.getElementById('userFullName').textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim();
-      document.getElementById('userUsername').textContent = user.username ? `@${user.username}` : '';
-      if (user.photo_url) {
-        document.getElementById('userAvatar').src = user.photo_url;
-      } else {
-        document.getElementById('userAvatar').src = 'https://via.placeholder.com/64';
-      }
-    } else {
-      document.getElementById('userFullName').textContent = 'Гость';
-      document.getElementById('userUsername').textContent = '';
-      document.getElementById('userAvatar').src = 'https://via.placeholder.com/64';
-    }
-
     // Эффекты
     let effectsEnabled = localStorage.getItem('effectsEnabled');
     if (effectsEnabled === null) effectsEnabled = 'true';
@@ -193,4 +176,41 @@ function onCaseClick() {
 document.getElementById('starsAmount').textContent = balanceFromApi;
   </script>
 </body>
+<script>
+  const tg = window.Telegram.WebApp;
+  const userId = tg.initDataUnsafe?.user?.id;
+
+  async function loadStarsBalance() {
+    if (!userId) return;
+
+    try {
+      const res = await fetch(`/api/user-balance?user_id=${userId}`);
+      const data = await res.json();
+      document.getElementById('starsAmount').textContent = data.balance ?? 0;
+    } catch (err) {
+      console.error('Ошибка загрузки баланса:', err);
+      document.getElementById('starsAmount').textContent = '—';
+    }
+  }
+  loadStarsBalance();
+</script>
+<script>
+  async function buyStars() {
+    const userId = Telegram.WebApp.initDataUnsafe?.user?.id;
+
+    try {
+      const res = await fetch(`/api/get-stars-invoice?user_id=${userId}`);
+      const { invoice_link } = await res.json();
+
+      Telegram.WebApp.openInvoice(invoice_link, (status) => {
+        if (status === 'paid') {
+          // Можно перезагрузить баланс
+          loadStarsBalance();
+        }
+      });
+    } catch (err) {
+      console.error('Ошибка при получении счёта:', err);
+    }
+  }
+</script>
 </html>

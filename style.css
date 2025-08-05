@@ -291,3 +291,19 @@ body.effects-disabled .section {
   height: 20px;
   object-fit: contain;
 }
+.top-up-button {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.top-up-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
