@@ -5,6 +5,8 @@ body {
   background: linear-gradient(135deg, #ff8800, #b300aa);
   color: #fff;
   min-height: 100vh;
+  outline: none !important;
+  box-shadow: none !important;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -264,4 +266,28 @@ body.effects-disabled .section {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.stars-balance {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+.stars-balance img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }

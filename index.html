@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="stars-balance" id="starsBalance">
+  <img src="star.png" alt="Stars" />
+  <span id="starsAmount">123</span>
+</div>
   <div class="container">
     <div id="content">
       <section id="cases" class="section active">
@@ -32,11 +36,6 @@
           <div class="case-container"></div>
         </div>
       </section>
-      вапвапвапваплваповлапотщвотраввввввввввввввввввввввввввввв
-      ваппппппппппппппппп
-      вапппппппппппппппппвапппппппппппппппп
-      ваппппппппппппппппппппппппппппппппппппппп
-      ваппппппппппппппппппппппппппппппппппппппп
       <section id="earn" class="section">
         <h2>Заработать</h2>
         <p>тут будут задания.</p>
@@ -191,6 +190,7 @@ buttons.forEach(btn => btn.classList.remove('disabled'));
 function onCaseClick() {
   navigate('case-open');
 }
+document.getElementById('starsAmount').textContent = balanceFromApi;
   </script>
 </body>
 </html>
